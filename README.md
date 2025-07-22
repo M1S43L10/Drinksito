@@ -31,7 +31,7 @@
 1. Cloná el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/drinksito.git
+git clone https://github.com/M1S43L10/Drinksito.git
 cd drinksito
 ```
 
