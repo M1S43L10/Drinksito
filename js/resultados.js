@@ -1,4 +1,4 @@
-import { CocktailAPI } from '../js/api.js';
+import { CocktailAPI } from './api.js';
 import { ocultarLoader } from './loader.js';
 
 
