@@ -1,5 +1,5 @@
-import { CocktailAPI } from '/js/api.js';
-import { ocultarLoader } from './loader.js';
+import { CocktailAPI } from '../js/api.js';
+import { ocultarLoader } from '../js/loader.js';
 
 
 const api = new CocktailAPI();
