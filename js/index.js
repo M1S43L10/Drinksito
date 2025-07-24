@@ -29,7 +29,7 @@ async function cargarTragosDestacados() {
         <img src="${trago.strDrinkThumb}" class="card-img-top p-2" alt="${trago.strDrink}">
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">${trago.strDrink}</h5>
-          <a href="../pages/detalle.html?id=${trago.idDrink}" class="btn btn-warning mt-auto">Ver receta</a>
+          <a href="pages/detalle.html?id=${trago.idDrink}" class="btn btn-warning mt-auto">Ver receta</a>
         </div>
       </div>
     `;
