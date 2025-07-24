@@ -125,3 +125,36 @@
 .swiper-slide .btn {
     margin-top: auto;
 }
+
+.carrito-item-custom {
+    background-color: #ffffff;
+    border: 2px solid #eeeeee;
+    border-radius: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.carrito-item-custom:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.carrito-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 2px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.cantidad-badge-custom {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    border-radius: 50%;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

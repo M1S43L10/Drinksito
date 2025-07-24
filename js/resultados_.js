@@ -1,5 +1,6 @@
 import { CocktailAPI } from './api.js';
-import { ocultarLoader } from './loader.js';
+import { ocultarLoader, mostrarLoader } from './loader.js';
+
 
 
 const api = new CocktailAPI();
@@ -46,7 +47,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
+// 🖼️ Mostrar una página específica
 function mostrarPagina(numPagina) {
+  mostrarLoader();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
   contenedor.innerHTML = "";
   paginaActual = numPagina;
 
@@ -60,17 +65,6 @@ function mostrarPagina(numPagina) {
 
     for (let j = i; j < i + 3 && j < paginados.length; j++) {
       const trago = paginados[j];
-
-      const carrito = JSON.parse(localStorage.getItem("carritoDrinksito")) || [];
-      const enCarrito = carrito.find(item => item.id === trago.idDrink);
-      const cantidad = enCarrito?.cantidad || 0;
-
-      const btnTexto = cantidad > 0
-        ? `<i class="bi bi-check-circle-fill me-1"></i> Agregado (${cantidad})`
-        : 'Agregar al carrito';
-
-      const btnClase = cantidad > 0 ? 'btn-outline-success' : 'btn-success';
-
       const col = document.createElement("div");
       col.className = "col-md-4 d-flex";
       col.innerHTML = `
@@ -79,13 +73,7 @@ function mostrarPagina(numPagina) {
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">${trago.strDrink}</h5>
             <p class="card-text text-muted">${trago.strCategory || ''}</p>
-            <a href="detalle.html?id=${trago.idDrink}" class="btn btn-warning mb-2">Ver receta</a>
-            <button class="btn ${btnClase} btn-agregar-carrito mt-auto" 
-                    data-id="${trago.idDrink}" 
-                    data-nombre="${trago.strDrink}" 
-                    data-imagen="${trago.strDrinkThumb}">
-              ${btnTexto}
-            </button>
+            <a href="detalle.html?id=${trago.idDrink}" class="btn btn-warning mt-auto">Ver receta</a>
           </div>
         </div>
       `;
@@ -94,7 +82,13 @@ function mostrarPagina(numPagina) {
 
     contenedor.appendChild(fila);
   }
+
+  // Esperar que las imágenes de la nueva página carguen
+  esperarCargaDeImagenes(() => {
+    ocultarLoader(); // <- si querés usarlo aquí también, según efecto
+  });
 }
+
 
 // 🔢 Crear botones de paginación
 function crearPaginacion(totalItems) {
@@ -137,38 +131,3 @@ function esperarCargaDeImagenes(callback) {
   });
 }
 
-
-// 🎯 Agregar al carrito desde resultados
-document.addEventListener("click", function (e) {
-  if (e.target.classList.contains("btn-agregar-carrito")) {
-    const btn = e.target;
-    const id = btn.dataset.id;
-    const nombre = btn.dataset.nombre;
-    const imagen = btn.dataset.imagen;
-
-    const carrito = JSON.parse(localStorage.getItem("carritoDrinksito")) || [];
-
-    // Buscar si ya existe
-    const itemExistente = carrito.find(item => item.id === id);
-    if (itemExistente) {
-      itemExistente.cantidad = (itemExistente.cantidad || 1) + 1;
-    } else {
-      carrito.push({ id, nombre, imagen, cantidad: 1 });
-    }
-
-    localStorage.setItem("carritoDrinksito", JSON.stringify(carrito));
-
-    // 🔁 Cambiar el botón
-    btn.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> Agregado (${itemExistente ? itemExistente.cantidad : 1})`;
-    btn.classList.remove("btn-success");
-    btn.classList.add("btn-outline-success");
-
-    Swal.fire({
-      title: "¡Listo!",
-      text: `"${nombre}" fue añadido al carrito 🍹`,
-      icon: "success",
-      timer: 1200,
-      showConfirmButton: false
-    });
-  }
-});

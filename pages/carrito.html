@@ -9,33 +9,60 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet">
     <!-- Custom CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
   </head>
   <body class="bg-light">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="../index.html">Mi Ecommerce</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-          data-bs-target="#navbarNav">
+        <a class="navbar-brand d-flex align-items-center"
+          href="../index.html">
+          <img src="../assets/drinksito_logo.png" alt="Drinksito Logo"
+            width="40" class="me-2">
+          <span>Drinksito</span>
+        </a>
+
+        <!-- 🔧 Agrupamos el buscador y el carrito -->
+        <div class="d-flex ms-auto align-items-center gap-2">
+          <form class="d-flex" role="search" action="resultados.html"
+            method="GET">
+            <input class="form-control form-control-sm me-2"
+              type="search" name="q" placeholder="Buscar..."
+              aria-label="Buscar">
+            <button class="btn btn-sm btn-warning" type="submit"><i
+                class="bi bi-search"></i></button>
+          </form>
+
+          <a href="../pages/carrito.html"
+            class="btn btn-outline-light btn-sm">
+            <i class="bi bi-cart-fill"></i>
+          </a>
+        </div>
+
+        <button class="navbar-toggler" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link"
-                href="../index.html">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link"
-                href="tienda.html">Tienda</a></li>
-            <li class="nav-item"><a class="nav-link"
-                href="carrito.html">Carrito</a></li>
-          </ul>
-        </div>
       </div>
     </nav>
 
-    <div class="container mt-5">
+    <div class="container my-5">
       <h1 class="text-center">Carrito</h1>
-      <p class="text-center">Aquí se mostrará el resumen del carrito.</p>
+
+      <div class="row g-3 justify-content-center" id="carrito-container"></div>
+      <div class="text-center mt-4">
+        <button id="finalizar-compra" class="btn btn-success">Finalizar
+          compra</button>
+      </div>
     </div>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Tu script del carrito -->
+    <script src="../js/carrito.js"></script>
+
   </body>
 </html>
