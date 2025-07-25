@@ -66,28 +66,34 @@ document.addEventListener("DOMContentLoaded", () => {
         html:
           `<input type="text" id="nombre" class="swal2-input" placeholder="Nombre">` +
           `<input type="text" id="apellido" class="swal2-input" placeholder="Apellido">` +
-          `<input type="text" id="direccion" class="swal2-input" placeholder="Dirección">`,
+          `<input type="text" id="direccion" class="swal2-input" placeholder="Dirección">` +
+          `<div class="form-check mt-3" style="text-align:left; padding-left:1.5rem;">
+          <input class="form-check-input" type="checkbox" id="envioCheck">
+          <label class="form-check-label" for="envioCheck">Solicitar envío a domicilio (+$500)</label>
+        </div>`,
         confirmButtonText: 'Enviar pedido',
         focusConfirm: false,
         preConfirm: () => {
           const nombre = document.getElementById('nombre').value.trim();
           const apellido = document.getElementById('apellido').value.trim();
           const direccion = document.getElementById('direccion').value.trim();
+          const envio = document.getElementById('envioCheck').checked;
 
           if (!nombre || !apellido || !direccion) {
             Swal.showValidationMessage('Todos los campos son obligatorios');
             return false;
           }
 
-          return { nombre, apellido, direccion };
+          return { nombre, apellido, direccion, envio };
         }
       }).then((result) => {
         if (result.isConfirmed) {
-          const { nombre, apellido, direccion } = result.value;
+          const { nombre, apellido, direccion, envio } = result.value;
 
           const orden = {
             idOrden: Date.now(),
             cliente: { nombre, apellido, direccion },
+            envio, // ✅ está correctamente afuera
             carrito: datos
           };
 
