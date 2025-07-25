@@ -2,23 +2,27 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>Carrito</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Favicon -->
-        <link rel="icon" href="../assets/drinksito_logo.png" type="image/png">
-        <!-- Bootstrap -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet">
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-            rel="stylesheet">
-        <!-- Custom CSS -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carta de Cócteles | Drinksito</title>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <link rel="stylesheet" href="../css/style.css">
         <script type="module" src="../js/loader.js"></script>
+        <!-- jQuery (necesario para Pagination.js) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Pagination.js -->
+        <script
+            src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+        <link rel="stylesheet"
+            href="https://pagination.js.org/dist/2.1.5/pagination.css">
 
     </head>
     <body class="bg-light">
+
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <!-- Logo -->
@@ -70,18 +74,39 @@
             </div>
         </nav>
 
-        <div class="container my-5">
-            <h3 class="text-center mb-4">🔍 Resultados de búsqueda</h3>
-            <div id="resultado-busqueda" class="container"></div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- Contenido principal -->
+        <section class="container py-5">
+            <h2 class="text-center text-warning mb-4">🍹 Carta de Cócteles</h2>
+
+            <!-- Filtros -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <select id="filtro-categoria" class="form-select">
+                        <option value>Todas las categorías</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select id="filtro-alcohol" class="form-select">
+                        <option value>Con o sin alcohol</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select id="filtro-vaso" class="form-select">
+                        <option value>Tipo de vaso</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Contenedor de tragos -->
+            <div class="row" id="contenedor-menu">
+                <!-- Cards de tragos renderizadas por JS -->
+            </div>
+        </section>
+
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="../js/precios.js"></script>
-        <script type="module" src="../js/resultados.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2/dist/umd/popper.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <script type="module" src="../js/menu.js"></script>
     </body>
 </html>

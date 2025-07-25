@@ -1,9 +1,13 @@
+import { ocultarLoader } from "./loader.js";
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("carrito-container");
   const datos = JSON.parse(localStorage.getItem("carritoDrinksito")) || [];
 
   if (datos.length === 0) {
     container.innerHTML = "<p class='text-center'>El carrito está vacío.</p>";
+    ocultarLoader(); // ✅ se oculta también si está vacío
     return;
   }
 
@@ -30,6 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
     container.appendChild(col);
   });
 
+  setTimeout(() => {
+    ocultarLoader();
+  }, 200);
+
   // ✅ Este bloque va aquí dentro
   container.addEventListener("click", (e) => {
     if (e.target.classList.contains("eliminar-btn")) {
@@ -38,9 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (i !== -1) {
         if (datos[i].cantidad > 1) {
-          datos[i].cantidad -= 1; // Resta 1 si hay más de una unidad
+          datos[i].cantidad -= 1;
         } else {
-          datos.splice(i, 1); // Elimina del array si queda solo 1
+          datos.splice(i, 1);
         }
 
         localStorage.setItem("carritoDrinksito", JSON.stringify(datos));
@@ -55,13 +63,49 @@ document.addEventListener("DOMContentLoaded", () => {
   if (finalizarBtn) {
     finalizarBtn.addEventListener("click", () => {
       Swal.fire({
-        title: "¡Gracias!",
-        text: "Tu pedido fue enviado al bar virtual 🍹",
-        icon: "success",
-        confirmButtonText: "Cerrar"
-      }).then(() => {
-        localStorage.removeItem("carritoDrinksito");
-        location.reload();
+        title: 'Datos del pedido',
+        html:
+          `<input type="text" id="nombre" class="swal2-input" placeholder="Nombre">` +
+          `<input type="text" id="apellido" class="swal2-input" placeholder="Apellido">` +
+          `<input type="text" id="direccion" class="swal2-input" placeholder="Dirección">`,
+        confirmButtonText: 'Enviar pedido',
+        focusConfirm: false,
+        preConfirm: () => {
+          const nombre = document.getElementById('nombre').value.trim();
+          const apellido = document.getElementById('apellido').value.trim();
+          const direccion = document.getElementById('direccion').value.trim();
+
+          if (!nombre || !apellido || !direccion) {
+            Swal.showValidationMessage('Todos los campos son obligatorios');
+            return false;
+          }
+
+          return { nombre, apellido, direccion };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const { nombre, apellido, direccion } = result.value;
+
+          const orden = {
+            idOrden: Date.now(),
+            cliente: { nombre, apellido, direccion },
+            carrito: datos
+          };
+
+          const ordenes = JSON.parse(localStorage.getItem("ordenesDrinksito")) || [];
+          ordenes.push(orden);
+          localStorage.setItem("ordenesDrinksito", JSON.stringify(ordenes));
+
+          Swal.fire({
+            title: "¡Gracias!",
+            text: "Tu pedido fue enviado al bar virtual 🍹",
+            icon: "success",
+            confirmButtonText: "Cerrar"
+          }).then(() => {
+            localStorage.removeItem("carritoDrinksito");
+            location.reload();
+          });
+        }
       });
     });
   }

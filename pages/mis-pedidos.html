@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <meta charset="UTF-8">
-        <title>Carrito</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Favicon -->
-        <link rel="icon" href="../assets/drinksito_logo.png" type="image/png">
-        <!-- Bootstrap -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet">
+        <meta charset="UTF-8" />
+        <title>Mis Pedidos</title>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
             rel="stylesheet">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="module" src="../js/mis-pedidos.js"></script>
         <script type="module" src="../js/loader.js"></script>
-
     </head>
     <body class="bg-light">
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
                 <!-- Logo -->
@@ -55,13 +51,14 @@
                             class="btn btn-outline-warning btn-sm w-lg-auto">
                             <i class="bi bi-menu-button-wide"></i> Ver menú
                         </a>
+
                         <!-- Botones -->
                         <a href="../pages/carrito.html"
                             class="btn btn-outline-light btn-sm w-lg-auto">
                             <i class="bi bi-cart-fill"></i>
                         </a>
 
-                        <a href="../pages/mis-pedidos.html"
+                        <a href="../pages/mis-pedidos.html" id="btn-pedidos"
                             class="btn btn-outline-info btn-sm w-lg-auto">
                             <i class="bi bi-receipt"></i> Pedidos
                         </a>
@@ -70,18 +67,26 @@
             </div>
         </nav>
 
-        <div class="container my-5">
-            <h3 class="text-center mb-4">🔍 Resultados de búsqueda</h3>
-            <div id="resultado-busqueda" class="container"></div>
+        <div class="container py-5">
+            <h2 class="text-center mb-4">Acceso a Mis Pedidos</h2>
+            <div id="login-section" class="text-center">
+                <input type="text" id="usuario" placeholder="Usuario"
+                    class="form-control mb-2 w-50 mx-auto" />
+                <input type="password" id="clave" placeholder="Contraseña"
+                    class="form-control mb-3 w-50 mx-auto" />
+                <button class="btn btn-primary" id="btn-login">Ingresar</button>
+            </div>
+
+            <div id="pedidos-section" class="d-none">
+                <h3 class="text-center mb-3">Pedidos realizados</h3>
+                <div id="lista-pedidos" class="row gy-3"></div>
+            </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="../js/precios.js"></script>
-        <script type="module" src="../js/resultados.js"></script>
+
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2/dist/umd/popper.min.js"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
     </body>
 </html>

@@ -26,14 +26,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!query) {
     contenedor.innerHTML = "<p class='text-center'>No se ingresó ningún término de búsqueda.</p>";
+    ocultarLoader(); // ✅ ocultamos el loader aunque no se buscó nada
     return;
   }
+
 
   tragos = await api.buscarTragoPorNombre(query);
 
   if (tragos.length === 0) {
     contenedor.innerHTML = `<p class='text-center'>No se encontraron resultados para <strong>${query}</strong>.</p>`;
-    ocultarLoader(); // 🔥 aseguramos que se cierre el loader
+    ocultarLoader();
     return;
   }
 
@@ -70,8 +72,8 @@ function mostrarPagina(numPagina) {
         : 'Agregar al carrito';
 
       const btnClase = cantidad > 0 ? 'btn-outline-success' : 'btn-success';
-
       const col = document.createElement("div");
+      const precio = obtenerPrecio(trago.idDrink); // 👈 NUEVO
       col.className = "col-md-4 d-flex";
       col.innerHTML = `
         <div class="card h-100 w-100">
@@ -79,6 +81,9 @@ function mostrarPagina(numPagina) {
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">${trago.strDrink}</h5>
             <p class="card-text text-muted">${trago.strCategory || ''}</p>
+            <p class="bg-light text-success text-center fs-5 fw-bold rounded py-1 px-2 shadow-sm">
+              <span class="fs-4">$${precio}</span>
+            </p>    
             <a href="detalle.html?id=${trago.idDrink}" class="btn btn-warning mb-2">Ver receta</a>
             <button class="btn ${btnClase} btn-agregar-carrito mt-auto" 
                     data-id="${trago.idDrink}" 
@@ -153,7 +158,8 @@ document.addEventListener("click", function (e) {
     if (itemExistente) {
       itemExistente.cantidad = (itemExistente.cantidad || 1) + 1;
     } else {
-      carrito.push({ id, nombre, imagen, cantidad: 1 });
+      const precio = obtenerPrecio(id);
+      carrito.push({ id, nombre, imagen, cantidad: 1, precio });
     }
 
     localStorage.setItem("carritoDrinksito", JSON.stringify(carrito));

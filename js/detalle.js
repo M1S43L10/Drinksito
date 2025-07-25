@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     : '<i class="bi bi-cart-plus-fill"></i> Agregar al carrito';
 
   const btnClase = cantidad > 0 ? 'btn-outline-success' : 'btn-success';
+  const precio = obtenerPrecio(trago.idDrink);  // 👈 nuevo
 
   contenedor.innerHTML = `
     <div class="p-4 mb-4 bg-white rounded shadow-sm">
@@ -45,23 +46,29 @@ document.addEventListener("DOMContentLoaded", async () => {
           <img src="${trago.strDrinkThumb}" class="img-fluid rounded w-100" alt="${trago.strDrink}">
         </div>
         <div class="col-md-7">
-          <h2 class="mb-3">${trago.strDrink}</h2>
+          <h2 class="mb-1">${trago.strDrink}</h2>
+          <p class="text-success fw-bold display-5 mb-4">$${precio}</p>
+
           <p><strong>Categoría:</strong> ${trago.strCategory}</p>
           <p><strong>Tipo:</strong> ${trago.strAlcoholic}</p>
           <p><strong>Vaso:</strong> ${trago.strGlass}</p>
+
           <h5>Ingredientes:</h5>
           <ul class="mb-3">
             ${ingredientes.map(ing => `<li>${ing}</li>`).join('')}
           </ul>
+
           <h5>Instrucciones:</h5>
           <p>${trago.strInstructions}</p>
-          <button id="btn-agregar" class="btn ${btnClase} mt-3">
+
+          <button id="btn-agregar" class="btn ${btnClase} mt-4">
             ${btnTexto}
           </button>
         </div>
       </div>
     </div>
   `;
+
 
   // Evento para agregar al carrito con cantidad
   const botonAgregar = document.getElementById("btn-agregar");
@@ -77,8 +84,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         id: trago.idDrink,
         nombre: trago.strDrink,
         imagen: trago.strDrinkThumb,
-        cantidad: 1
+        cantidad: 1,
+        precio: precio
       });
+
       cantidad = 1;
     }
 
