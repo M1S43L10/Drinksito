@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (datos.length === 0) {
     container.innerHTML = "<p class='text-center'>El carrito está vacío.</p>";
-    ocultarLoader(); // ✅ se oculta también si está vacío
+    ocultarLoader()
     return;
   }
+
 
   container.innerHTML = "";
   datos.forEach((item, index) => {
@@ -38,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ocultarLoader();
   }, 200);
 
-  // ✅ Este bloque va aquí dentro
   container.addEventListener("click", (e) => {
     if (e.target.classList.contains("eliminar-btn")) {
       const id = e.target.dataset.id;
@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // finalizar compra
   const finalizarBtn = document.getElementById("finalizar-compra");
   if (finalizarBtn) {
     finalizarBtn.addEventListener("click", () => {

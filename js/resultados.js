@@ -1,18 +1,14 @@
 import { CocktailAPI } from './api.js';
-import { ocultarLoader } from './loader.js';
+import { ocultarLoader, mostrarLoader } from './loader.js';
 
 
 const api = new CocktailAPI();
 const contenedor = document.getElementById("resultado-busqueda");
-const paginador = document.createElement("div");
-paginador.className = "text-center my-4";
-contenedor.after(paginador);
+const paginador = document.getElementById("paginador");
 
-const TRAGOS_POR_PAGINA = 9;
+
 let tragos = [];
-let paginaActual = 1;
 
-// 🔍 Cargar resultados iniciales
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const query = params.get("q")?.trim().toLowerCase();
@@ -26,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!query) {
     contenedor.innerHTML = "<p class='text-center'>No se ingresó ningún término de búsqueda.</p>";
-    ocultarLoader(); // ✅ ocultamos el loader aunque no se buscó nada
+    ocultarLoader(); 
     return;
   }
 
@@ -40,28 +36,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
 
-  mostrarPagina(1);
-  crearPaginacion(tragos.length);
-  esperarCargaDeImagenes(() => {
-    ocultarLoader();
+  $('#paginador').pagination({
+    dataSource: tragos,
+    pageSize: 9,
+    callback: function (data) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      mostrarLoader();
+      renderizarTragos(data);
+      esperarCargaDeImagenes(() => {
+        ocultarLoader();
+      });
+    }
   });
-
 });
 
-function mostrarPagina(numPagina) {
+function renderizarTragos(data) {
   contenedor.innerHTML = "";
-  paginaActual = numPagina;
 
-  const inicio = (numPagina - 1) * TRAGOS_POR_PAGINA;
-  const fin = inicio + TRAGOS_POR_PAGINA;
-  const paginados = tragos.slice(inicio, fin);
-
-  for (let i = 0; i < paginados.length; i += 3) {
+  for (let i = 0; i < data.length; i += 3) {
     const fila = document.createElement("div");
-    fila.className = "row justify-content-center g-4";
+    fila.className = `row justify-content-center g-4 ${i === 0 ? 'mt-4' : ''}`;
 
-    for (let j = i; j < i + 3 && j < paginados.length; j++) {
-      const trago = paginados[j];
+
+    for (let j = i; j < i + 3 && j < data.length; j++) {
+      const trago = data[j];
 
       const carrito = JSON.parse(localStorage.getItem("carritoDrinksito")) || [];
       const enCarrito = carrito.find(item => item.id === trago.idDrink);
@@ -73,8 +71,8 @@ function mostrarPagina(numPagina) {
 
       const btnClase = cantidad > 0 ? 'btn-outline-success' : 'btn-success';
       const col = document.createElement("div");
-      const precio = obtenerPrecio(trago.idDrink); // 👈 NUEVO
-      col.className = "col-md-4 d-flex";
+      const precio = obtenerPrecio(trago.idDrink);
+      col.className = "col-md-4 d-flex mb-4";
       col.innerHTML = `
         <div class="card h-100 w-100">
           <img src="${trago.strDrinkThumb}" class="card-img-top" alt="${trago.strDrink}">
@@ -101,22 +99,6 @@ function mostrarPagina(numPagina) {
   }
 }
 
-// 🔢 Crear botones de paginación
-function crearPaginacion(totalItems) {
-  paginador.innerHTML = "";
-  const totalPaginas = Math.ceil(totalItems / TRAGOS_POR_PAGINA);
-
-  for (let i = 1; i <= totalPaginas; i++) {
-    const btn = document.createElement("button");
-    btn.className = `btn btn-sm mx-1 ${i === paginaActual ? 'btn-primary' : 'btn-outline-primary'}`;
-    btn.textContent = i;
-    btn.onclick = () => {
-      mostrarPagina(i);
-      crearPaginacion(tragos.length);
-    };
-    paginador.appendChild(btn);
-  }
-}
 
 
 function esperarCargaDeImagenes(callback) {
@@ -143,7 +125,6 @@ function esperarCargaDeImagenes(callback) {
 }
 
 
-// 🎯 Agregar al carrito desde resultados
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("btn-agregar-carrito")) {
     const btn = e.target;
@@ -153,7 +134,7 @@ document.addEventListener("click", function (e) {
 
     const carrito = JSON.parse(localStorage.getItem("carritoDrinksito")) || [];
 
-    // Buscar si ya existe
+    
     const itemExistente = carrito.find(item => item.id === id);
     if (itemExistente) {
       itemExistente.cantidad = (itemExistente.cantidad || 1) + 1;
@@ -164,7 +145,6 @@ document.addEventListener("click", function (e) {
 
     localStorage.setItem("carritoDrinksito", JSON.stringify(carrito));
 
-    // 🔁 Cambiar el botón
     btn.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> Agregado (${itemExistente ? itemExistente.cantidad : 1})`;
     btn.classList.remove("btn-success");
     btn.classList.add("btn-outline-success");

@@ -14,7 +14,6 @@ contenedor.after(paginador);
 
 let tragos = [];
 
-// 🔽 Cargar filtros al iniciar
 async function cargarFiltros() {
     const categorias = await api.listarCategorias();
     const tipos = await api.listarTiposBebida();
@@ -42,7 +41,6 @@ async function cargarFiltros() {
     });
 }
 
-// 🔄 Lógica de filtrado (uno por vez)
 async function aplicarFiltros() {
     mostrarLoader();
     contenedor.innerHTML = "<p class='text-center'>Cargando...</p>";
@@ -72,7 +70,6 @@ async function aplicarFiltros() {
     ocultarLoader();
 }
 
-// 🧾 Renderizar cards
 function renderizarTragos(data) {
     contenedor.innerHTML = "";
     if (!data || data.length === 0) {
@@ -126,15 +123,12 @@ function renderizarTragos(data) {
     }
 }
 
-// 📦 Eventos
 selectCategoria.addEventListener("change", aplicarFiltros);
 selectAlcohol.addEventListener("change", aplicarFiltros);
 selectVaso.addEventListener("change", aplicarFiltros);
 
-// 🚀 Iniciar
 cargarFiltros().then(aplicarFiltros);
 
-// 🛒 Agregar al carrito desde el menú
 document.addEventListener("click", function (e) {
     if (e.target.classList.contains("btn-agregar-carrito")) {
         const btn = e.target;

@@ -4,24 +4,25 @@
         <meta charset="UTF-8">
         <title>Carrito</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Favicon -->
         <link rel="icon" href="../assets/drinksito_logo.png" type="image/png">
-        <!-- Bootstrap -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet">
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
             rel="stylesheet">
-        <!-- Custom CSS -->
         <link rel="stylesheet" href="../css/style.css">
         <script type="module" src="../js/loader.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script
+            src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
+        <link rel="stylesheet"
+            href="https://pagination.js.org/dist/2.1.5/pagination.css">
 
     </head>
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <!-- Logo -->
                 <a class="navbar-brand d-flex align-items-center"
                     href="../index.html">
                     <img src="../assets/drinksito_logo.png" alt="Drinksito Logo"
@@ -29,18 +30,15 @@
                     <span>Drinksito</span>
                 </a>
 
-                <!-- Botón hamburguesa -->
                 <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarContenido">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Contenido colapsable -->
                 <div class="collapse navbar-collapse" id="navbarContenido">
                     <div
                         class="ms-auto d-flex flex-column flex-lg-row align-items-center gap-2 mt-3 mt-lg-0 w-100 w-lg-auto justify-content-end">
 
-                        <!-- Formulario de búsqueda -->
                         <form class="d-flex w-lg-auto" role="search"
                             action="resultados.html" method="GET">
                             <input class="form-control form-control-sm me-2"
@@ -70,10 +68,12 @@
             </div>
         </nav>
 
-        <div class="container my-5">
+        <div class="container my-5 pt-4">
             <h3 class="text-center mb-4">🔍 Resultados de búsqueda</h3>
             <div id="resultado-busqueda" class="container"></div>
+            <div id="paginador" class="text-center my-4"></div>
         </div>
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

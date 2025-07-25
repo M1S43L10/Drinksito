@@ -1,5 +1,6 @@
 import { ocultarLoader } from './loader.js';
 
+
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -9,14 +10,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const res = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-  const data = await res.json();
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const data = await response.json();
+
   const trago = data.drinks?.[0];
 
   if (!trago) {
     Swal.fire("Oops", "No se encontró el trago", "warning");
     return;
   }
+
+  const precio = obtenerPrecio(trago.idDrink);
 
   const ingredientes = [];
   for (let i = 1; i <= 15; i++) {
@@ -27,7 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const contenedor = document.getElementById("detalle-trago");
 
-  // 🔍 Obtener cantidad actual desde localStorage
   const carrito = JSON.parse(localStorage.getItem("carritoDrinksito")) || [];
   const itemExistente = carrito.find(item => item.id === trago.idDrink);
   let cantidad = itemExistente?.cantidad || 0;
@@ -37,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     : '<i class="bi bi-cart-plus-fill"></i> Agregar al carrito';
 
   const btnClase = cantidad > 0 ? 'btn-outline-success' : 'btn-success';
-  const precio = obtenerPrecio(trago.idDrink);  // 👈 nuevo
 
   contenedor.innerHTML = `
     <div class="p-4 mb-4 bg-white rounded shadow-sm">
@@ -70,7 +72,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   `;
 
 
-  // Evento para agregar al carrito con cantidad
   const botonAgregar = document.getElementById("btn-agregar");
   botonAgregar.addEventListener("click", () => {
     const carrito = JSON.parse(localStorage.getItem("carritoDrinksito")) || [];
@@ -93,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     localStorage.setItem("carritoDrinksito", JSON.stringify(carrito));
 
-    // Actualizar botón
+
     botonAgregar.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> Agregado (${cantidad})`;
     botonAgregar.classList.remove("btn-success");
     botonAgregar.classList.add("btn-outline-success");

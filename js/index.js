@@ -23,8 +23,6 @@ async function cargarTragosDestacados() {
   tragos.forEach(trago => {
     const slide = document.createElement("div");
     slide.className = "swiper-slide";
-
-    // 👇 Obtener precio usando la función compartida
     const precio = obtenerPrecio(trago.idDrink);
 
     slide.innerHTML = `
@@ -50,12 +48,8 @@ async function cargarTragosDestacados() {
       disableOnInteraction: false,
     },
     spaceBetween: 30,
-
-    // Configuración por defecto (desktop)
     direction: "horizontal",
     slidesPerView: 4,
-
-    // Responsive
     breakpoints: {
       0: {
         direction: "vertical",

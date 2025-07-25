@@ -11,16 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const listaPedidos = document.getElementById("lista-pedidos");
 
     if (yaLogueado) {
-        // ✅ MOSTRAR LOADER
         mostrarLoader();
 
-        // Mostrar sección pedidos
         loginSection.classList.add("d-none");
         pedidosSection.classList.remove("d-none");
 
-        mostrarPedidos(); // ← esto ya oculta el loader al final
+        mostrarPedidos(); 
 
-        // Botón cerrar sesión
         const botonPedidos = document.getElementById("btn-pedidos");
         if (botonPedidos) {
             botonPedidos.innerHTML = '<i class="bi bi-box-arrow-left"></i> Cerrar sesión';
@@ -46,17 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const clave = claveInput.value.trim();
 
         if (usuario === "admin" && clave === "admin") {
-            // Guardar estado de sesión
+
             localStorage.setItem("adminLogueado", "true");
 
-            // Mostrar loader inmediatamente
+
             mostrarLoader();
 
-            // Ocultar login y mostrar sección pedidos
+
             loginSection.classList.add("d-none");
             pedidosSection.classList.remove("d-none");
 
-            // Cargar pedidos (al finalizar oculta loader)
+
             mostrarPedidos();
         }
         else {
@@ -91,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
             listaPedidos.appendChild(div);
         });
 
-        // Esperar al menos un tick para asegurar que se renderizó
         setTimeout(() => {
             ocultarLoaderYActivarLogout();
         }, 200);

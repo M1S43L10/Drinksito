@@ -1,4 +1,3 @@
-// Crear e insertar el loader
 document.addEventListener("DOMContentLoaded", () => {
     const loader = document.createElement("div");
     loader.id = "loader";
@@ -9,12 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     document.body.appendChild(loader);
 
-    // Bloquear scroll mientras carga
+  
     document.body.style.overflow = "hidden";
     document.body.style.height = "100vh";
 });
 
-// Función que se llamará desde otro módulo para ocultar el loader
 export function ocultarLoader() {
     const loader = document.getElementById("loader");
     if (!loader) return;
